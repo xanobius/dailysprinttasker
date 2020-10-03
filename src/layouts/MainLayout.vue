@@ -4,8 +4,10 @@
       <q-toolbar>
         <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
         <q-toolbar-title>Header</q-toolbar-title>
+        <q-btn flat @click="addNewTask" round dense icon="add_task"></q-btn>
       </q-toolbar>
     </q-header>
+    <!--  Navigation drawer  -->
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
@@ -26,18 +28,11 @@
           </q-item>
         </q-list>
       </q-scroll-area>
-
-      <!--
-        in this case, we use a button (can be anything)
-        so that user can switch back
-        to mini-mode
-      -->
       <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
         <q-btn
-          dense
           round
           unelevated
-          color="accent"
+          color="grey-7"
           icon="chevron_left"
           @click="miniState = true"
         />
@@ -47,15 +42,18 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <!--  Task-Mask drawer   -->
     <q-drawer
         v-model="todoDrawerOpen"
-        show-if-above
         side="right"
         bordered
-        width="50vw"
+        :width="500"
         content-class="bg-grey-2"
       >
-      <task-mask></task-mask>
+      <task-mask
+        v-on:close="todoDrawerOpen = false"
+      ></task-mask>
     </q-drawer>
   </q-layout>
 </template>
@@ -120,6 +118,9 @@ export default {
       todoDrawerOpen: false
     }
   },
+  created () {
+    this.todoDrawerOpen = false
+  },
   methods: {
     drawerClick (e) {
       if (this.miniState) {
@@ -128,8 +129,10 @@ export default {
       }
     },
     addNewTask () {
-      console.log('waaasap')
-      return ''
+      this.todoDrawerOpen = true
+    },
+    receivedCloseWish () {
+      console.log('close  it, may be')
     }
   }
 }
