@@ -1,8 +1,8 @@
 <template>
   <q-page>
-    <h2>Doing</h2>
-    <div class="q-ma-sm">
-      <task-list :tasks="getAllTasks" />
+    <div class="q-ma-md">
+      <h2>Doing</h2>
+      <task-list :tasks="getCurrentTasks" />
     </div>
   </q-page>
 </template>
@@ -15,7 +15,7 @@ export default {
   name: 'Doing',
   components: { TaskList },
   computed: {
-    ...mapGetters('tasks', ['getAllTasks'])
+    ...mapGetters('tasks', ['getCurrentTasks'])
   }
 }
 </script>
