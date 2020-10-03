@@ -1,98 +1,135 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpr Lff" class="shadow-2 rounded-borders">
+    <q-header elevated class="bg-black">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
-        <q-toolbar-title>
-          Daily Huddle Manager
-        </q-toolbar-title>
+        <q-btn flat @click="leftDrawerOpen = !leftDrawerOpen" round dense icon="menu" />
+        <q-toolbar-title>Header</q-toolbar-title>
       </q-toolbar>
     </q-header>
-
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
+
+      :mini="!leftDrawerOpen || miniState"
+      @click.capture="drawerClick"
+
+      :width="250"
+      :breakpoint="500"
       bordered
-      content-class="bg-grey-1"
+      content-class="bg-grey-3"
     >
-      <q-list>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
+      <q-scroll-area class="fit">
+        <q-list padding>
+          <q-item v-for="nl in navLinks" v-bind:key="nl.title" v-ripple :to="nl.link" exact>
+            <q-item-section avatar><q-icon :name="nl.icon" /></q-item-section>
+            <q-item-section>{{ nl.title }}</q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+
+      <!--
+        in this case, we use a button (can be anything)
+        so that user can switch back
+        to mini-mode
+      -->
+      <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="accent"
+          icon="chevron_left"
+          @click="miniState = true"
         />
-      </q-list>
+      </div>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+    <q-drawer
+        v-model="todoDrawerOpen"
+        show-if-above
+        side="right"
+        bordered
+        width="50vw"
+        content-class="bg-grey-2"
+      >
+      <task-mask></task-mask>
+    </q-drawer>
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
+// import EssentialLink from 'components/EssentialLink.vue'
+import TaskMask from 'components/TaskMask'
 
 const linksData = [
-  {
-    title: 'Report',
-    caption: 'Ready 4 Huddle',
-    icon: 'insert_chart',
-    link: 'https://quasar.dev'
-  },
   {
     title: 'Doing',
     caption: 'Current Sprint',
     icon: 'work',
-    link: 'https://github.com/quasarframework'
+    link: '/'
   },
   {
-    title: 'Upcomming',
+    title: 'Report',
+    caption: 'Ready 4 Huddle',
+    icon: 'insert_chart',
+    link: '/report'
+  },
+  {
+    title: 'Upcoming',
     caption: 'Next Sprint',
     icon: 'work_outline',
-    link: 'https://chat.quasar.dev'
+    link: '/upcoming'
   },
   {
     title: 'Backlog',
     caption: 'Future Todos',
     icon: 'toc',
-    link: 'https://forum.quasar.dev'
+    link: '/backlog'
   },
   {
     title: 'Archive',
     caption: 'Past/Done Tasks',
     icon: 'archive',
-    link: 'https://forum.quasar.dev'
+    link: '/archive'
   },
   {
     title: 'Challenges',
     caption: 'Those little basterds',
     icon: 'warning',
-    link: 'https://twitter.quasar.dev'
+    link: '/challenges'
   },
   {
     title: 'Settings',
     caption: 'Configurations',
     icon: 'app_settings_alt',
-    link: 'https://facebook.quasar.dev'
+    link: '/settings'
   }
 ]
 
 export default {
   name: 'MainLayout',
-  components: { EssentialLink },
+  components: { TaskMask },
   data () {
     return {
-      leftDrawerOpen: false,
-      essentialLinks: linksData
+      leftDrawerOpen: true,
+      miniState: false,
+      navLinks: linksData,
+      todoDrawerOpen: false
+    }
+  },
+  methods: {
+    drawerClick (e) {
+      if (this.miniState) {
+        this.miniState = false
+        e.stopPropagation()
+      }
+    },
+    addNewTask () {
+      console.log('waaasap')
+      return ''
     }
   }
 }
