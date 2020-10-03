@@ -28,6 +28,7 @@
             <q-item-section>{{ nl.title }}</q-item-section>
           </q-item>
         </q-list>
+        <q-btn @click="promptStartNewSprint" color="green" icon="mail" icon-right="send" label="Start new Sprint" class="full-width" />
       </q-scroll-area>
       <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
         <q-btn
@@ -55,6 +56,7 @@
 <script>
 // import EssentialLink from 'components/EssentialLink.vue'
 import TaskMask from 'components/TaskMask'
+import { mapActions } from 'vuex'
 
 const linksData = [
   {
@@ -106,7 +108,7 @@ export default {
   components: { TaskMask },
   data () {
     return {
-      showAddTask: true,
+      showAddTask: false,
       leftDrawerOpen: true,
       miniState: false,
       navLinks: linksData,
@@ -117,6 +119,22 @@ export default {
     this.todoDrawerOpen = false
   },
   methods: {
+    ...mapActions('tasks', ['startNewSprint']),
+    promptStartNewSprint () {
+      this.$q.dialog({
+        title: 'Neuen Sprint starten?',
+        message: 'Aktiver Sprint wird gewechselt. Unerledigte Tasks müssen manuell neu zugeordnet werden.',
+        ok: {
+          push: true
+        },
+        cancel: {
+          color: 'negative'
+        },
+        persistent: true
+      }).onOk(() => {
+        this.startNewSprint()
+      })
+    },
     drawerClick (e) {
       if (this.miniState) {
         this.miniState = false
