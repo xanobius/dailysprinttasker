@@ -1,7 +1,9 @@
 <template>
   <q-page>
     <h2>Doing</h2>
-    <task-list :tasks="getAllTasks" />
+    <div class="q-ma-sm">
+      <task-list :tasks="getAllTasks" />
+    </div>
   </q-page>
 </template>
 
