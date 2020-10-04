@@ -117,9 +117,10 @@ export default {
   },
   created () {
     this.todoDrawerOpen = false
+    this.getInitialData()
   },
   methods: {
-    ...mapActions('tasks', ['startNewSprint']),
+    ...mapActions('tasks', ['startNewSprint', 'getInitialData']),
     promptStartNewSprint () {
       this.$q.dialog({
         title: 'Neuen Sprint starten?',

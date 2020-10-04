@@ -1,5 +1,13 @@
 import Vue from 'vue'
 
+export function setTasks (state, tasks) {
+  state.tasks = tasks
+}
+
+export function setSprints (state, sprints) {
+  state.sprints = sprints
+}
+
 export function updateTask (state, payload) {
   if (payload.id === 0) {
     payload.updates.id = ((Math.random() * 999) + 100).toFixed(0)
