@@ -8,7 +8,7 @@ Todos / Ideas general
 - [x] Create tasks
 - [x] Delete tasks
 - [ ] Edit tasks
-- [x] Start new sprint (and move existing springs accordingly)
+- [x] Start new sprint (and move existing sprints accordingly)
 - [ ] TBD: move unfinished tasks on new sprint TO the new sprint
 - [x] Report overview
 - [x] Current tasks overview
